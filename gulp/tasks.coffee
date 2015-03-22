@@ -7,6 +7,7 @@ concat = require('gulp-concat')
 bower = require('gulp-bower')
 csso = require('gulp-csso')
 autoprefixer = require('gulp-autoprefixer')
+jade = require('gulp-jade')
 
 gulp.task('bower', ->
   bower()
@@ -24,19 +25,26 @@ gulp.task('sass', ['bower'], ->
       .pipe(gulp.dest('./build/css'))
 )
 
+gulp.task('jade', ->
+  gulp.src('./templates/*.jade')
+    .pipe(jade({pretty: true}))
+    .pipe(gulp.dest('./build/'))
+)
+
 gulp.task('clean', ->
     del(['./build/**'])
 )
 
-gulp.task('build', ['sass'])
+gulp.task('build', ['sass', 'jade'])
 
-gulp.task('server', ['clean', 'build'], ->
-    gulp.src(['html', 'build'])
+gulp.task('server', ['build'], ->
+    gulp.src(['build'])
       .pipe(webserver({host: '0.0.0.0'}))
 )
 
 gulp.task('watch', ['server'], ->
   gulp.watch('./assets/**/*.sass', ['sass'])
+  gulp.watch('./templates/*.jade', ['jade'])
 )
 
 gulp.task('dist', ['build'], ->
