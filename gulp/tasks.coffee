@@ -26,7 +26,7 @@ gulp.task('sass', ['bower'], ->
 )
 
 gulp.task('jade', ->
-  gulp.src('./templates/*.jade')
+  gulp.src('./templates/!(layout).jade')
     .pipe(jade({pretty: true}))
     .pipe(gulp.dest('./build/'))
 )
