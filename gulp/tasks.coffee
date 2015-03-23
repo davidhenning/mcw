@@ -14,15 +14,15 @@ gulp.task('bower', ->
 )
 
 gulp.task('sass', ['bower'], ->
-    vendorFiles = gulp.src('./bower_components/normalize.css/normalize.css')
+  vendorFiles = gulp.src('./bower_components/normalize.css/normalize.css')
 
-    applicationFiles = gulp.src('./assets/styles/**/*.sass')
-      .pipe(sass({indentedSyntax: true, sourceComments: 'normal'}))
+  applicationFiles = gulp.src('./assets/styles/**/*.sass')
+    .pipe(sass({indentedSyntax: true, sourceComments: 'normal'}))
 
-    es.concat(vendorFiles, applicationFiles)
-      .pipe(concat('mcw.css'))
-      .pipe(autoprefixer({browsers: 'last 5 versions', cascade: false}))
-      .pipe(gulp.dest('./build/css'))
+  es.concat(vendorFiles, applicationFiles)
+    .pipe(concat('mcw.css'))
+    .pipe(autoprefixer({browsers: 'last 5 versions', cascade: false}))
+    .pipe(gulp.dest('./build/css'))
 )
 
 gulp.task('jade', ->
@@ -32,19 +32,19 @@ gulp.task('jade', ->
 )
 
 gulp.task('clean', ->
-    del(['./build/**'])
+  del(['./build/**'])
 )
 
 gulp.task('build', ['sass', 'jade'])
 
 gulp.task('server', ['build'], ->
     gulp.src(['build'])
-      .pipe(webserver({host: '0.0.0.0'}))
+    .pipe(webserver({host: '0.0.0.0'}))
 )
 
 gulp.task('watch', ['server'], ->
   gulp.watch('./assets/**/*.sass', ['sass'])
-  gulp.watch('./templates/*.jade', ['jade'])
+  gulp.watch('./templates/**/*.jade', ['jade'])
 )
 
 gulp.task('dist', ['build'], ->
